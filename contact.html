@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact – H4CKR ACADEMY</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="container">
+    <main>
+      <h1>CONTACT</h1>
+      <form id="contactForm">
+        <label for="name">Name</label><br />
+        <input type="text" id="name" name="name" required /><br />
+
+        <label for="email">Email</label><br />
+        <input type="email" id="email" name="email" required /><br />
+
+        <label for="message">Message</label><br />
+        <textarea id="message" name="message" rows="6" required></textarea><br />
+
+        <button type="submit">Send Message</button>
+      </form>
+    </main>
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="courses.html">COURSES</a></li>
+        <li><a href="team.html">TEAM</a></li>
+        <li><a href="contact.html" class="active">CONTACT</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const chatId = '1342016402';
+      const token = '7025180002:AAHVYfN2Hk4Y95Dkx_dZeruao0KZnKL70G4';
+
+      const text = `📨 Новое сообщение с сайта:\n\n👤 Имя: ${name}\n📧 Email: ${email}\n📝 Сообщение: ${message}`;
+
+      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: text })
+        });
+
+        if (response.ok) {
+          alert('✅ Заявка отправлено мы скоро свами свяжемся');
+          form.reset();
+        } else {
+          alert('❌ Ошибка при отправке.');
+        }
+      } catch (error) {
+        alert('⚠️ Ошибка соединения.');
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
